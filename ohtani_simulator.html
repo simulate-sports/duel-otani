@@ -318,23 +318,23 @@
 <div class="stats-bar">
   <div class="stats-side batter">
     <div class="stats-role">打者 × 9人</div>
-    <div class="stats-name">大谷翔平 <span class="year">2024</span></div>
+    <div class="stats-name">大谷翔平 <span class="year">2025</span></div>
     <div class="stat-row">
-      <div class="stat-item"><span class="stat-n">打率</span><span class="stat-v">.310</span></div>
-      <div class="stat-item"><span class="stat-n">出塁率</span><span class="stat-v">.390</span></div>
-      <div class="stat-item"><span class="stat-n">HR</span><span class="stat-v">54本</span></div>
-      <div class="stat-item"><span class="stat-n">OPS</span><span class="stat-v">1.036</span></div>
+      <div class="stat-item"><span class="stat-n">打率</span><span class="stat-v">.282</span></div>
+      <div class="stat-item"><span class="stat-n">出塁率</span><span class="stat-v">.392</span></div>
+      <div class="stat-item"><span class="stat-n">HR</span><span class="stat-v">55本</span></div>
+      <div class="stat-item"><span class="stat-n">OPS</span><span class="stat-v">1.014</span></div>
     </div>
   </div>
   <div class="vs-center"><div class="vs-badge">VS</div></div>
   <div class="stats-side pitcher">
     <div class="stats-role">投手 先発完投</div>
-    <div class="stats-name">大谷翔平 <span class="year">2023</span></div>
+    <div class="stats-name">大谷翔平 <span class="year">2026</span></div>
     <div class="stat-row">
-      <div class="stat-item"><span class="stat-n">防御率</span><span class="stat-v">3.14</span></div>
-      <div class="stat-item"><span class="stat-n">WHIP</span><span class="stat-v">1.06</span></div>
-      <div class="stat-item"><span class="stat-n">K/9</span><span class="stat-v">11.4</span></div>
-      <div class="stat-item"><span class="stat-n">奪三振</span><span class="stat-v">167</span></div>
+      <div class="stat-item"><span class="stat-n">防御率</span><span class="stat-v">2.50</span></div>
+      <div class="stat-item"><span class="stat-n">WHIP</span><span class="stat-v">0.98</span></div>
+      <div class="stat-item"><span class="stat-n">K/9</span><span class="stat-v">12.5</span></div>
+      <div class="stat-item"><span class="stat-n">奪三振</span><span class="stat-v">200+</span></div>
     </div>
   </div>
 </div>
@@ -353,7 +353,7 @@
       <button class="mode-btn" data-mode="best" onclick="setMode(this)">絶好調</button>
       <button class="mode-btn" data-mode="bad" onclick="setMode(this)">不調</button>
     </div>
-    <div style="margin-top:10px; font-size:12px; color:var(--muted);" id="mode-desc">2023年シーズン平均レベル</div>
+    <div style="margin-top:10px; font-size:12px; color:var(--muted);" id="mode-desc">2026年シーズン平均レベル（防御率2.50）</div>
   </div>
 </div>
 
@@ -389,16 +389,16 @@
 </div>
 
 <div class="footer-note">
-  打者成績：大谷翔平 2024年（打率.310 / 出塁率.390 / 長打率.646 / HR54本）<br>
-  投手成績：大谷翔平 2023年（防御率3.14 / WHIP1.06 / 167奪三振）<br>
+  打者成績：大谷翔平 2025年（打率.282 / 出塁率.392 / 長打率.622 / HR55本 / OPS1.014）<br>
+  投手成績：大谷翔平 2026年（防御率2.50 / WHIP0.98 / K/9 12.5 ※2025実績+推計）<br>
   各打席結果を実績確率から乱数生成するモンテカルロシミュレーション
 </div>
 
 <script>
 const MODES = {
-  normal: { kM: 1.0,  hitM: 1.0,  bbM: 1.0,  desc: '2023年シーズン平均レベル' },
-  best:   { kM: 1.35, hitM: 0.55, bbM: 0.55, desc: 'ノーヒッター級・MAX奪三振モード' },
-  bad:    { kM: 0.70, hitM: 1.55, bbM: 1.45, desc: '防御率5〜6点台・制球乱れ気味' },
+  normal: { kM: 1.0,  hitM: 1.0,  bbM: 1.0,  desc: '2026年シーズン平均レベル（防御率2.50）' },
+  best:   { kM: 1.40, hitM: 0.50, bbM: 0.50, desc: 'サイ・ヤング賞級・MAX奪三振モード' },
+  bad:    { kM: 0.70, hitM: 1.55, bbM: 1.45, desc: '不調・制球乱れ（防御率5点台）' },
 };
 let currentMode = 'normal';
 
@@ -412,13 +412,13 @@ function setMode(btn) {
 function getOutcome(m) {
   const { kM, hitM, bbM } = MODES[m];
   const raw = {
-    K:   0.255 * kM,
-    BB:  0.080 * bbM,
-    HBP: 0.010 * bbM,
-    HR:  0.085 * hitM,
-    '3B':0.004 * hitM,
-    '2B':0.028 * hitM,
-    '1B':0.105 * hitM,
+    K:   0.270 * kM,   // 2026投手大谷：K/9 12.5 → 三振率アップ
+    BB:  0.070 * bbM,  // WHIP0.98 → 与四球減
+    HBP: 0.008 * bbM,
+    HR:  0.086 * hitM, // 2025打者大谷：HR55本
+    '3B':0.006 * hitM, // 2025は3塁打9本と多め
+    '2B':0.026 * hitM,
+    '1B':0.096 * hitM, // 打率.282ベース
   };
   const total = Object.values(raw).reduce((a,b)=>a+b,0);
   let r = Math.random() * total;
